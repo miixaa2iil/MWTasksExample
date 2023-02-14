@@ -80,7 +80,7 @@ calculate_number_and_ratio <- function(df, group = NULL, var) {
 #'
 #' @return [[data.frame]]  summarised data.frame
 #' @export
-calculate_randomized_subjects <- function(df_list,
+calculate_rand_source <- function(df_list,
                                           group) {
   stopifnot(is.list(df_list))
   task_var <- "is_my_date_NA"
@@ -122,9 +122,9 @@ calculate_randomized_subjects <- function(df_list,
 #' @description Function calculates missing data number and ratio in groups after subsetting
 #' @param df_list [[list]] list of data.frames
 #' @param group [[character]] group variable name \itemize{
-#' \item study
-#' \item site
-#' \item country}
+#' \item option1
+#' \item option2
+#' \item option3}
 #' @param subset [[character]] subset name, currently only `rand source`
 #' @return [[data.frame]]  calculated data.frame
 #' @export
@@ -141,7 +141,7 @@ calculate_missing_data <- function(df_list,
                   missing_data_df <- merge(df_list$df1,
                                            df_list$df2,
                                            by = "source",
-                                           all.x = TRUE # it means that only randomized subjects are being taken into consideration
+                                           all.x = TRUE # it means that only rand source is being taken into consideration
                   ) %>% level2logical(
                     var = "task_col",
                     level = "Missing data"
@@ -164,7 +164,7 @@ calculate_missing_data <- function(df_list,
                          "option3" = {merge(missing_data_df,
                                             df_list$df4,
                                             by = "source",
-                                            all.x = TRUE) %>% merge(df_list$country,
+                                            all.x = TRUE) %>% merge(df_list$df5,
                                                                     by = "option2",
                                             ) %>% calculate_number_and_ratio(group = group,
                                                                              var = task_var
